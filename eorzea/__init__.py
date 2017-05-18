@@ -1,6 +1,6 @@
 from flask import Flask
 
-from app.extensions import db
+from eorzea.extensions import db
 
 
 def create_app(config):
