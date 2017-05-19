@@ -37,7 +37,7 @@
             {% else %}
             <li{% if class_name %} class="{{class_name}}"{% endif %}>
             {%- endif %}
-              <a href="{{ child.get_url() }}"{% if child.target %} target="{{ child.target }}"{% endif %}>{{ menu_icon(child) }}{{ child.name }}</a>
+              <a href="{{ child.get_url() }}"{% if child.target %} target="{{ child.target }}"{% endif %}>{{ menu_icon(child) }}<span>{{ child.name | title }}</span></a>
             </li>
           {%- endfor %}
           </ul>
@@ -51,7 +51,7 @@
         {%- else %}
         <li{% if class_name %} class="{{class_name}}"{% endif %}>
         {%- endif %}
-          <a href="{{ item.get_url() }}"{% if item.target %} target="{{ item.target }}"{% endif %}>{{ menu_icon(item) }}{{ item.name }}</a>
+          <a href="{{ item.get_url() }}"{% if item.target %} target="{{ item.target }}"{% endif %}>{{ menu_icon(item) }}<span>{{ item.name | title }}</span></a>
         </li>
       {%- endif -%}
     {% endif -%}
@@ -63,7 +63,7 @@
   {% for item in links %}
     {% if item.is_accessible() and item.is_visible() %}
       <li>
-        <a href="{{ item.get_url() }}">{{ menu_icon(item) }}{{ item.name }}</a>
+        <a href="{{ item.get_url() }}">{{ menu_icon(item) }}<span>{{ item.name | title }}</span></a>
       </li>
     {% endif %}
   {% endfor %}
