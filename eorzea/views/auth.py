@@ -6,6 +6,8 @@ from flask import url_for
 from flask import render_template
 from flask import Blueprint
 from flask_login import login_user
+from flask_login import logout_user
+from flask_login import login_required
 
 from eorzea.forms import LoginForm
 from eorzea.forms import RegisterForm
@@ -37,3 +39,10 @@ def register():
         login_user(user)
         return redirect(url_for('index.index'))
     return render_template('auth/register.html', form=form)
+
+
+@bp.route('/logout', methods=['GET'])
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index.index'))
