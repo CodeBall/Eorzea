@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  server:
+    build: .
+    volumes:
+      - .:/eorzea
+    ports:
+      - "5000:5000"
+    environment:
+      - "FLASK_APP=/eorzea/manage.py"
+      - "FLASK_DEBUG=1"
+    entrypoint: ./docker-entrypoint.sh
+    command: flask run --host=0.0.0.0
+    restart: always
+    links:
+      - mysql
+    depends_on:
+      - mysql
+  mysql:
+    build: ./dockerfiles/mysql/
+    environment:
+      - "MYSQL_DATABASE=eorzea"
+      - "MYSQL_USER=eorzea"
+      - "MYSQL_PASSWORD=eorzea"
+      - "MYSQL_ROOT_PASSWORD=eorzea"
+    restart: always
