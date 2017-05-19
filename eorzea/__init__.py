@@ -7,6 +7,7 @@ from eorzea.extensions import login_manager
 from eorzea.views.auth import bp as auth_bp
 from eorzea.views.index import bp as index_bp
 from eorzea.models import UserModel
+from eorzea.admin import admin
 
 
 def create_app(config):
@@ -23,6 +24,9 @@ def register_extensions(app):
     db.init_app(app)
     alembic.init_app(app)
     login_manager.init_app(app)
+    admin.init_app(app)
+
+    login_manager.login_view = 'auth.login'
 
     @login_manager.user_loader
     def load_user(user_id):

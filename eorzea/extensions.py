@@ -8,6 +8,3 @@ db = SQLAlchemy()
 alembic = Alembic()
 login_manager = LoginManager()
 qiniu = Qiniu()
-
-
-login_manager.login_view = 'auth.login'
