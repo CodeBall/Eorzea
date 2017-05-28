@@ -13,6 +13,7 @@ class UserModel(db.Model, UserMixin):
     email = db.Column(db.String(128), unique=True, index=True)
     address = db.Column(db.String(256))
     avatar_url = db.Column(db.String(128))
+    is_active = db.Column(db.Boolean, default=True, nullable=False)  # 账号状态
     created_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
 
