@@ -10,7 +10,6 @@ services:
     environment:
       - "FLASK_APP=/eorzea/manage.py"
       - "FLASK_DEBUG=1"
-    entrypoint: ./docker-entrypoint.sh
     command: flask run --host=0.0.0.0
     restart: always
     links:
