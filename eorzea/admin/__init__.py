@@ -7,6 +7,7 @@ from flask_admin import AdminIndexView as _AdminIndexView
 
 from eorzea.extensions import db
 from eorzea.admin.category import CategoryAdmin
+from eorzea.admin.user import UserAdmin
 
 
 class AdminIndexView(_AdminIndexView):
@@ -26,3 +27,4 @@ admin = Admin(
 
 
 admin.add_view(CategoryAdmin(db.session, name='category', url='category', menu_icon_type='fa', menu_icon_value='fa-tags'))
+admin.add_view(UserAdmin(db.session, name='user', url='user', menu_icon_type='fa', menu_icon_value='fa-user'))
