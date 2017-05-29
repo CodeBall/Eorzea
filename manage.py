@@ -1,8 +1,7 @@
 from eorzea import create_app
-from eorzea.config import config
 
 
-app = create_app(config)
+app = create_app()
 
 
 if __name__ == '__main__':

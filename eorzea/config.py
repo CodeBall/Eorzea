@@ -2,12 +2,13 @@ import os
 
 SITE_NAME = 'Eorzea'
 ENV_SYMBOL_NAME = 'EORZEA'
-APP_ROOT = os.path.dirname(os.path.abspath(__file__))
-ROOT = os.path.abspath(os.path.join(APP_ROOT, '../'))
+APP_PATH = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(APP_PATH, '../'))
 
 
-class BaseConfig(object):
+class BaseConfig:
     DEBUG = True
+    SITE_NAME = SITE_NAME
     SECRET_KEY = os.environ.get('SECRET_KEY',
                                 '\x1d\x00-!\x94\xaf;\x01\x84\x86\xab\x91\x8f\xc3qh\xb6\xcd+\x86\x82\xc4\xf1\xd2')
 
@@ -19,6 +20,12 @@ class BaseConfig(object):
     ALEMBIC = {
         'script_location': os.path.join(ROOT, 'alembic')
     }
+
+    # qiniu
+    QINIU_ACCESS_KEY = os.environ.get('QINIU_ACCESS_KEY', '')
+    QINIU_SECRET_KEY = os.environ.get('QINIU_SECRET_KEY', '')
+    QINIU_BUCKET_NAME = os.environ.get('QINIU_BUCKET_NAME', 'eorzea')
+    QINIU_BASE_URL = os.environ.get('QINIU_BASE_URL', '')
 
 
 class DevConfig(BaseConfig):
@@ -33,6 +40,3 @@ configs = {
     "dev": DevConfig,
     "production": ProductionConfig,
 }
-
-config = configs.get(os.environ.get(ENV_SYMBOL_NAME, 'dev'))
-config.SITE_NAME = SITE_NAME

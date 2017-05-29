@@ -6,6 +6,7 @@ from qiniu import put_data
 
 
 class Qiniu:
+    CONTENT_TYPES = ('image/jpg', 'image/jpeg', 'image/png')
 
     def __init__(self, app=None):
         self.app = app
@@ -37,7 +38,7 @@ class Qiniu:
 
     def upload_stream(self, file_stream, key, token=None):
         if token is None:
-            token = self.upload_token()
+            token = self.upload_token()[0]
         ret, info = put_data(token, key, file_stream)
         if ret is None:
             raise UploadError(info)
