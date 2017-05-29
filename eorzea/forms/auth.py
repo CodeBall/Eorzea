@@ -27,6 +27,23 @@ class LoginForm(Form):
             raise ValidationError('Username or password is invalid')
 
 
+class PasswordResetForm(Form):
+    email = StringField('Email Address on Account', validators=[DataRequired(),
+                                                                Email(),
+                                                                Length(max=128)])
+    password = PasswordField('New Password', validators=[DataRequired(),
+                                                         Length(6, 20),
+                                                         EqualTo('confirm_password', message='Passwords must match')])
+    confirm_password = PasswordField(validators=[DataRequired(), Length(6, 20)])
+
+    def validate_email(self, field):
+        user = UserService.get_user_by_email(field.data)
+        if not user:
+            raise ValidationError("The mail without registration")
+        else:
+            self.user = user
+
+
 class RegisterForm(Form):
     email = StringField(validators=[DataRequired(),
                                     Email(),

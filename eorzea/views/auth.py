@@ -10,6 +10,7 @@ from flask_login import logout_user
 from flask_login import login_required
 
 from eorzea.forms import LoginForm
+from eorzea.forms import PasswordResetForm
 from eorzea.forms import RegisterForm
 from eorzea.utils.url import is_safe_url
 from eorzea.services import UserService
@@ -29,6 +30,16 @@ def login():
 
         return redirect(_next or url_for('index.index'))
     return render_template('auth/login.html', form=form)
+
+
+@bp.route('/password/reset', methods=['GET', 'POST'])
+def password_reset():
+    form = PasswordResetForm()
+    if form.validate_on_submit():
+        user = UserService.set_password(form.user.id, form.password.data)
+        login_user(user)
+        return redirect(url_for('index.index'))
+    return render_template('auth/password_reset.html', form=form)
 
 
 @bp.route('/register', methods=['GET', 'POST'])
