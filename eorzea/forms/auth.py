@@ -2,6 +2,7 @@ from flask_wtf import Form
 from wtforms.fields import StringField
 from wtforms.fields import PasswordField
 from wtforms.fields import BooleanField
+from wtforms.fields import SelectField
 from wtforms.validators import DataRequired
 from wtforms.validators import ValidationError
 from wtforms.validators import Email
@@ -9,7 +10,7 @@ from wtforms.validators import Length
 from wtforms.validators import Regexp
 from wtforms.validators import EqualTo
 
-
+from eorzea.const import SexMapping
 from eorzea.services import UserService
 
 
@@ -43,6 +44,17 @@ class RegisterForm(Form):
                                          Length(6, 20),
                                          EqualTo('confirm_password', message='Passwords must match')])
     confirm_password = PasswordField(validators=[DataRequired(), Length(6, 20)])
+    real_name = StringField(validators=[Length(max=128)])
+    telephone = StringField(validators=[DataRequired()])
+    sex = SelectField(
+        choices=[
+            (SexMapping.SEX_UNKNOW, "unknow"),
+            (SexMapping.SEX_MAN, "man"),
+            (SexMapping.SEX_WOMAN, "woman")
+        ],
+        default="unknow",
+        coerce=int
+    )
 
     def validate_email(self, field):
         user = UserService.get_user_by_email(field.data)

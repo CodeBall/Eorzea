@@ -37,6 +37,27 @@
       {{ field_error(form.confirm_password) }}
     </div>
     <div class="form-group">
+      {{ form.real_name.label(class="col-sm-4 control-label") }}
+      <div class="col-sm-4">
+        {{ form.real_name(class="form-control") }}
+      </div>
+      {{ field_error(form.real_name) }}
+    </div>
+    <div class="form-group">
+      {{ form.telephone.label(class="col-sm-4 control-label") }}
+      <div class="col-sm-4">
+        {{ form.telephone(class="form-control") }}
+      </div>
+      {{ field_error(form.telephone) }}
+    </div>
+    <div class="form-group">
+      {{ form.sex.label(class="col-sm-4 control-label") }}
+      <div class="col-sm-4">
+        {{ form.sex(class="form-control") }}
+      </div>
+      {{ field_error(form.sex) }}
+    </div>
+    <div class="form-group">
       <div class="col-sm-offset-4 col-sm-4">
         <button type="submit" class="btn btn-default">Sign up</button>
       </div>

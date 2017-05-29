@@ -35,7 +35,14 @@ def login():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        user = UserService.create_user(form.username.data, form.email.data, form.password.data)
+        user = UserService.create_user(
+            form.username.data,
+            form.email.data,
+            form.password.data,
+            form.telephone.data,
+            form.sex.data,
+            form.real_name.data
+        )
         login_user(user)
         return redirect(url_for('index.index'))
     return render_template('auth/register.html', form=form)
