@@ -1,4 +1,4 @@
-"""add user fields ,  and 
+"""add user fields
 
 Revision ID: 076ab23c83e3
 Revises: dfb95b9e2277
