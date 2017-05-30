@@ -17,7 +17,7 @@ class UserAdmin(ModelViewMixin):
         ),
     }
 
-    column_editable_list = ('real_name', 'telephone', 'address', 'sex', 'is_active')
+    column_editable_list = ('real_name', 'telephone', 'address', 'sex', 'active')
 
     def __init__(self, session, **kwargs):
         super(UserAdmin, self).__init__(UserModel, session, **kwargs)
