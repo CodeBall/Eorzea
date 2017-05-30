@@ -15,6 +15,11 @@ class UserService:
         return user
 
     @staticmethod
+    def get_user_by_id(user_id):
+        user = UserModel.query.get(user_id)
+        return user
+
+    @staticmethod
     def get_user_by_email(email):
         user = UserModel.query.filter_by(email=email).first()
         return user
