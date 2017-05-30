@@ -13,6 +13,7 @@ from eorzea.extensions import qiniu
 from eorzea.views.auth import bp as auth_bp
 from eorzea.views.index import bp as index_bp
 from eorzea.views.item import bp as item_bp
+from eorzea.views.user import bp as user_bp
 from eorzea.models import UserModel
 from eorzea.admin import admin
 
@@ -67,6 +68,7 @@ def register_blueprints(app):
     app.register_blueprint(index_bp)
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(item_bp, url_prefix='/item')
+    app.register_blueprint(user_bp, url_prefix='/user')
 
 
 def register_command(app):
