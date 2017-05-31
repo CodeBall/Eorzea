@@ -34,7 +34,7 @@ def add_item():
     if form.validate_on_submit():
         images = []
         for image in form.images.data:
-            filename = 'images/{}.{}'.format(uuid.uuid4(), image.filename.split('.')[-1])
+            filename = f"images/{uuid.uuid4()}.{image.filename.split('.')[-1]}"
             images.append(filename)
             qiniu.upload_stream(image, filename)
         ItemService.add_item(title=form.title.data,
@@ -42,7 +42,7 @@ def add_item():
                              images=','.join(images),
                              location=form.location.data,
                              user_id=current_user.id)
-        return redirect(url_for('index.index'))
+        return redirect(url_for('item.show_item'))
     return render_template('add_item.html', form=form)
 
 
