@@ -14,6 +14,8 @@ class ItemModel(db.Model):
     user_id = db.Column(db.Integer, index=True, nullable=False)
     category_id = db.Column(db.Integer, index=True)
 
+    is_trade = db.Column(db.Boolean, nullable=False, default=0)
+    traded_at = db.Column(db.DateTime)
     created_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
 
