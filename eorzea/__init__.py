@@ -28,6 +28,12 @@ def create_app(config=None):
     register_blueprints(app)
     register_command(app)
 
+    from flask import render_template
+
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('not_found.html'), 404
+
     return app
 
 
