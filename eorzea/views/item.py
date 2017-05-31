@@ -1,5 +1,6 @@
 import uuid
 
+from flask import abort
 from flask import Blueprint
 from flask import redirect
 from flask import url_for
@@ -8,10 +9,15 @@ from flask_login import current_user
 from flask_login import login_required
 
 from eorzea.forms import ItemForm
+from eorzea.forms import ItemCommentForm
 from eorzea.services import CategoryService
 from eorzea.services import ItemService
 from eorzea.services import UserService
+from eorzea.services import ItemCommentService
 from eorzea.extensions import qiniu
+from eorzea.utils.api import APIStatus
+from eorzea.utils.api import jsonify_with_error
+from eorzea.utils.api import jsonify_with_data
 
 
 bp = Blueprint('item', __name__)
@@ -44,15 +50,31 @@ def add_item():
 def show_item(item_id):
     item = ItemService.get_item_by_id(item_id)
     if item is None:
-        return render_template('not_found.html')
+        abort(404)
     user = UserService.get_user_by_id(item.user_id)
     if user is None:
-        return render_template('not_found.html')
-    else:
-        user = user.to_dict()
+        abort(404)
     if item.category_id:
         category = CategoryService.get_category_by_id(item.category_id)
     else:
         category = None
 
-    return render_template('item.html', item=item, user=user, category=category)
+    form = ItemCommentForm()
+    comments = ItemCommentService.get_comments_by_item_id(item_id)
+    return render_template('item.html', item=item, user=user, category=category, comments=comments, comment_form=form)
+
+
+@bp.route('/<int:item_id>/comment', methods=['POST'])
+@login_required
+def add_item_comment(item_id):
+    item = ItemService.get_item_by_id(item_id)
+    if not item:
+        abort(404)
+    form = ItemCommentForm()
+    if not form.validate_on_submit():
+        return jsonify_with_error(APIStatus.BAD_REQUEST,
+                                  errors=form.errors)
+    ItemCommentService.add_comment(content=form.content.data,
+                                   user_id=current_user.id,
+                                   item_id=item_id)
+    return jsonify_with_data(APIStatus.OK)

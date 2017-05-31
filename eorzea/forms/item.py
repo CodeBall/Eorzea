@@ -20,3 +20,7 @@ class ItemForm(Form):
         min_entries=1, max_entries=3)
     location = StringField(validators=[DataRequired(), Length(max=128)])
     add_image = SubmitField()
+
+
+class ItemCommentForm(Form):
+    content = TextAreaField(validators=[DataRequired(), Length(max=512)])
