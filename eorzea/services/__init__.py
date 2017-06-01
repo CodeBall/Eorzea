@@ -5,4 +5,4 @@ from eorzea.services.item import ItemService
 from eorzea.services.item import ItemCommentService
 
 
-__all__ = [CategoryService, CategoryService, UserService, ItemService, ItemCommentService]
+__all__ = [CategoryService, CollectionService, UserService, ItemService, ItemCommentService]
