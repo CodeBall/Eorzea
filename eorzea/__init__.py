@@ -79,3 +79,8 @@ def register_blueprints(app):
 
 def register_command(app):
     app.cli.add_command(alembic_click, 'db')
+
+    @app.cli.command()
+    def init():
+        from eorzea.scripts import init_category
+        init_category()
