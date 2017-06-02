@@ -20,18 +20,9 @@ class ItemModel(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
 
-    def to_dict(self):
-        images = self.images.split(',')
-        return dict(
-            id=self.id,
-            title=self.title,
-            description=self.description,
-            location=self.location,
-            user_id=self.user_id,
-            category_id=self.category_id,
-            image=[qiniu.public_url(image) for image in images],
-            created_at=self.created_at
-        )
+    @property
+    def images_url(self):
+        return [qiniu.public_url(image) for image in self.images.split(',')]
 
 
 class ItemCommentModel(db.Model):

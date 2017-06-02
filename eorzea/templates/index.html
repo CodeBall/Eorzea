@@ -1,1 +1,58 @@
 {% extends "base.html" %}
+
+
+{% block content %}
+<div id="index-list">
+    {% for item in items %}
+        <div class="row good-item">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <img src="{{ item.user.avatar_url}}" width="100%"
+                                     class="img-circle">
+                            </div>
+                            <div class="col-md-7">
+                                <p><a href="{{ url_for('user.profile', username=item.user.username) }}">{{ item.user.username }}</a></p>
+                                <p>{{ item.created_at }}</p>
+                                <p><label>{{ item.category_name }}</label></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p style="padding: 20px 0">
+                                    {{ item.description }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="row">
+                            {% for image in item.images_url %}
+                            <div class="col-md-4">
+                                <a href="#" class="thumbnail">
+                                    <img src="{{ image }}"
+                                         width="100%">
+                                </a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <ul class="list-unstyled">
+                            <li><i class="fa fa-gift"> 申请</i> <label>{{ item.trade_count }}</label></li>
+                            <li><i class="fa fa-heart"> 收藏</i> <label>{{ item.collection_count }}</label></li>
+                            <li><i class="fa fa-comment"> 评论</i> <label>{{ item.comment_count }}</label></li>
+                        </ul>
+                        <div class="btn-group" role="group">
+                            <a class="btn btn-primary btn-xs">查看详情</a>
+                            <a class="btn btn-info btn-xs">收藏</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock%}

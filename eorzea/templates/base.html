@@ -1,49 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title>{% block title %}Eorzea{% endblock %}</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    </head>
-    <body>
-      <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="{{ url_for('index.index') }}">Eorzea</a>
-          </div>
-          <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-              {% if current_user.is_authenticated %}
-              <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
-              {% else %}
-              <li><a href="{{ url_for('auth.login') }}">Login</a></li>
-              <li class="topbar-devider"></li>
-              <li><a href="{{ url_for('auth.register') }}">Register</a></li>
-              {% endif %}
-            </ul>
-            <!--
-            <form class="navbar-form navbar-right">
-              <input type="text" class="form-control" placeholder="Search...">
-            </form>
-            -->
-          </div>
-        </div>
-      </nav>
-      <div class="container">
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>{% block title %}Eorzea{% endblock %}</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css')}}">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="top-nav">
+    <div class="container">
+        <ul class="list-inline text-right">
+            {% if current_user.is_authenticated %}
+            <li><a href="{{ url_for('auth.logout') }}">登出</a></li>
+            {% else %}
+            <li><a href="{{ url_for('auth.logout') }}">登录</a></li>
+            <li><a href="{{ url_for('auth.register') }}">注册</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+<div class="head-menu">
+    <div class="container">
         <div class="row">
-          {% block content %}
-          {% endblock %}
+            <div class="col-md-2">
+                <div id="logo">
+                    <img src="">
+                </div>
+            </div>
+            <div class="col-md-7">
+                <ul class="list-inline">
+                    <li><a href="{{ url_for('index.index') }}" class="btn btn-link" type="button">首页</a></li>
+                    {% for category in categories %}
+                        <li><a class="btn btn-link" type="button">{{category.name}}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <form>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div><!-- /input-group -->
+                </form>
+            </div>
         </div>
-      </div>
-      <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
-      <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-      {% block script %}
-      {% endblock %}
-    </body>
+    </div>
+</div>
+<div class="container">
+    {% block content %}
+    {% endblock %}
+</div>
+<div class="footer-nav">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <h4>购物指南</h4>
+                <ul class="list-unstyled">
+                    <li><a class="btn btn-link" type="button">购物流程</a></li>
+                    <li><a class="btn btn-link" type="button">会员介绍</a></li>
+                    <li><a class="btn btn-link" type="button">隐私政策</a></li>
+                    <li><a class="btn btn-link" type="button">常见问题</a></li>
+                    <li><a class="btn btn-link" type="button">联系客服</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h4>售后服务</h4>
+                <ul class="list-unstyled">
+                    <li><a class="btn btn-link" type="button">售后政策</a></li>
+                    <li><a class="btn btn-link" type="button">价格保护</a></li>
+                    <li><a class="btn btn-link" type="button">退款说明</a></li>
+                    <li><a class="btn btn-link" type="button">返修/退换货</a></li>
+                    <li><a class="btn btn-link" type="button">取消订单</a></li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h3>About</h3>
+                <p>欢迎来到爱交易,</p>
+                <p>&nbsp;&nbsp;在这里,你只需要注册一个账号,就可以进行二手物品的交易,快来加入我们,把你不想要的二手物品拿来换钱吧!!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+{% block script %}
+{% endblock %}
+</body>
 </html>
 

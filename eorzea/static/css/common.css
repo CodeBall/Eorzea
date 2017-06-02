@@ -1,0 +1,49 @@
+.top-nav {
+    height: 25px;
+    line-height: 25px;
+    background-color: #f5f5f5;
+}
+
+.head-menu {
+    height: 90px;
+    background-color: #675A6E;
+}
+
+.head-menu li {
+    height: 90px;
+    line-height: 90px;
+    width: 70px;
+    text-align: center;
+}
+
+.head-menu li a {
+    color: #cccccc;
+}
+
+.head-menu li a:hover {
+    color: #ffffff;
+}
+
+.head-menu li:hover {
+    background-color: #666;
+}
+
+.head-menu form {
+    margin-top: 27px;
+}
+
+#logo {
+    height: 90px;
+    line-height: 90px;
+}
+
+.footer-nav{
+    height: 270px;
+    background-color: #675A6E;
+}
+.footer-nav .row{
+    padding: 20px;
+}
+.footer-nav li a{
+    color: #cccccc;
+}

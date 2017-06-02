@@ -1,3 +1,5 @@
+from sqlalchemy import desc
+
 from eorzea.models import ItemModel
 from eorzea.models import ItemCommentModel
 from eorzea.extensions import db
@@ -8,6 +10,15 @@ class ItemService:
     def get_item_by_id(item_id):
         item = ItemModel.query.get(item_id)
         return item
+
+    @staticmethod
+    def get_items(limit=None):
+        query = ItemModel.query.filter_by(is_trade=False).order_by(desc(ItemModel.created_at))
+
+        if limit is not None:
+            query = query.limit(limit)
+
+        return query
 
     @staticmethod
     def add_item(title, description, images, location, user_id):

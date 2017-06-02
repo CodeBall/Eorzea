@@ -1,0 +1,28 @@
+.profile{
+    padding: 30px;
+    border: solid #EAF5BC 2px;
+    margin: 30px 0;
+}
+.user-info{
+    padding: 25px 0;
+}
+
+.user-info li{
+    margin: 5px;
+}
+
+.user-record p{
+    color: #F0743E;
+}
+
+.user-record a p:hover{
+    color: #F2C00C;
+}
+
+.user-record a p:active{
+    color: #cccccc;
+}
+.report {
+    margin-top: 20px;
+    text-align: left;
+}
