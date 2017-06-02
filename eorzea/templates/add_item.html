@@ -30,6 +30,13 @@
       {{ field_error(form.location) }}
     </div>
     <div class="form-group">
+      {{ form.category.label(class="col-sm-4 control-label") }}
+      <div class="col-sm-4">
+        {{ form.category(class="form-control") }}
+      </div>
+      {{ field_error(form.category) }}
+    </div>
+    <div class="form-group">
       {{ form.images.label(class="col-sm-4 control-label") }}
       <div class="col-sm-4">
         {% for image in form.images %}

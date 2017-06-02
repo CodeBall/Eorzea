@@ -37,12 +37,13 @@ def add_item():
             filename = f"images/{uuid.uuid4()}.{image.filename.split('.')[-1]}"
             images.append(filename)
             qiniu.upload_stream(image, filename)
-        ItemService.add_item(title=form.title.data,
-                             description=form.description.data,
-                             images=','.join(images),
-                             location=form.location.data,
-                             user_id=current_user.id)
-        return redirect(url_for('item.show_item'))
+        item = ItemService.add_item(title=form.title.data,
+                                    description=form.description.data,
+                                    images=','.join(images),
+                                    location=form.location.data,
+                                    category_id=form.category_id,
+                                    user_id=current_user.id)
+        return redirect(url_for('item.show_item', item_id=item.id))
     return render_template('add_item.html', form=form)
 
 
