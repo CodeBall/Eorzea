@@ -18,3 +18,7 @@ class CollectionService:
     @staticmethod
     def get_user_list_by_item_id(item_id):
         return CollectionModel.query.filter_by(item_id=item_id)
+
+    @staticmethod
+    def check_collection(user_id, item_id):
+        return CollectionModel.query.filter_by(user_id=user_id, item_id=item_id).first()
