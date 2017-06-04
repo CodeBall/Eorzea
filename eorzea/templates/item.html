@@ -1,4 +1,117 @@
 {% extends "base.html"%}
 
 {% block content %}
+<div class="row goods">
+        <div class="col-md-12 good-info">
+            <div class="row">
+                <div class="col-md-3">
+                    <img src="{{ user.user_avatar}}" width="100%"
+                         class="img-thumbnail">
+                </div>
+                <div class="col-md-6">
+                    <h2>{{ item.title }}</h2>
+                    <ul class="list-unstyled">
+                        <li><label>类别</label> {{ category.name }} </li>
+                        <li><label>发布时间</label> {{ item.created_at }} </li>
+                        <li><label>地点</label> {{ item.location }}</li>
+                    </ul>
+                    <br/>
+                    <div class="btn-group" role="group" aria-label="...">
+                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal"
+                                    data-target="#trade">申请
+                        </button>
+                        <a href="{{ url_for('collection.add_collection', item_id=item.id) }}" class="btn btn-success btn-xs">收藏</a>
+                    </div>
+                </div>
+                <div class="col-md-3 good-user">
+                    <h3>用户信息</h3>
+                    <ul class="list-unstyled">
+                        <li><label>用户名</label> {{ user.username }}</li>
+                        <li><label>邮箱</label> {{ user.email }}</li>
+                        <li><label>手机</label> {{ user.telephone }}</li>
+                        <li><label>性别</label> {{ user.user_sex }}</li>
+                        <li><label>地址</label> {{ user.address }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 good-introduce">
+            <hr/>
+            <h3>详情</h3>
+            <p>{{ item.description }}</p>
+            <div class="row">
+            {% for image in item.images_url %}
+            <div class="col-md-10" style="margin: 0 auto">
+                <a href="#" class="thumbnail">
+                    <img src="{{ image }}"
+                         width="100%">
+                </a>
+            </div>
+            {% endfor %}
+                </div>
+        </div>
+    </div>
+ <div class="row good-comment">
+        <div class="col-md-12">
+            <h3>评论</h3>
+            <ul class="media-list">
+                {% for comment in comments %}
+                <li class="media">
+                    <div class="media-left">
+                        <a href="{{ url_for('user.profile', username=comment.user.username) }}">
+                            <img class="media-object" data-src="holder.js/64x64" alt="64x64"
+                                 src="{{ comment.user.user_avatar}}"
+                                 data-holder-rendered="true" style="width: 64px; height: 64px;">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">{{ comment.user.username }} &nbsp;/&nbsp; {{ comment.created_at }}</h4>
+                        <p>{{ comment.content }}</p>
+                    </div>
+                </li>
+                {% endfor%}
+            </ul>
+            <hr/>
+        </div>
+        <div class="col-md-12">
+            <h4>发布评论</h4>
+            <form>
+                <div class="form-group">
+                    <textarea class="form-control" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">发布</button>
+                </div>
+            </form>
+        </div>
+    </div>
+<div class="modal fade" id="trade" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel">
+    <div class="modal-dialog" role="document">
+        <form method="post" action="{{ url_for('item.trade', item_id=item.id) }}">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="reportModalLabel">申请物品</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">联系方式</label>
+                        <input type="text" class="form-control" id="recipient-name" name="contact">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="control-label">申请原因</label>
+                        <textarea class="form-control" id="message-text" name="reasion"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="submit" class="btn btn-danger">申请</button>
+            </div>
+        </div>
+            </form>
+    </div>
+</div>
 {% endblock %}

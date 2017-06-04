@@ -4,14 +4,18 @@ from flask import abort
 from flask import Blueprint
 from flask import redirect
 from flask import url_for
+from flask import flash
+from flask import request
 from flask import render_template
 from flask_login import current_user
 from flask_login import login_required
 
 from eorzea.forms import ItemForm
 from eorzea.forms import ItemCommentForm
+from eorzea.forms import ItemTradeForm
 from eorzea.services import CategoryService
 from eorzea.services import ItemService
+from eorzea.services import TradeService
 from eorzea.services import UserService
 from eorzea.services import ItemCommentService
 from eorzea.extensions import qiniu
@@ -49,6 +53,7 @@ def add_item():
 
 @bp.route('/<int:item_id>', methods=['GET'])
 def show_item(item_id):
+    categories = CategoryService.get_categories()
     item = ItemService.get_item_by_id(item_id)
     if item is None:
         abort(404)
@@ -62,7 +67,12 @@ def show_item(item_id):
 
     form = ItemCommentForm()
     comments = ItemCommentService.get_comments_by_item_id(item_id)
-    return render_template('item.html', item=item, user=user, category=category, comments=comments, comment_form=form)
+    for comment in comments:
+        if comment.user_id:
+            user = UserService.get_user_by_id(comment.user_id)
+            if user:
+                comment.user = user
+    return render_template('item.html', item=item, categories=categories, user=user, category=category, comments=comments, comment_form=form)
 
 
 @bp.route('/<int:item_id>/comment', methods=['POST'])
@@ -79,3 +89,27 @@ def add_item_comment(item_id):
                                    user_id=current_user.id,
                                    item_id=item_id)
     return jsonify_with_data(APIStatus.OK)
+
+
+@bp.route('/<int:item_id>', methods=['POST'])
+@login_required
+def trade(item_id):
+    item = ItemService.get_item_by_id(item_id)
+    if not item:
+        abort(404)
+    item_trade = TradeService.check(current_user.id, item_id)
+    if item_trade:
+        flash("您已经提交了该物品的交易申请了哦~~")
+        return redirect(request.referrer)
+
+    form = ItemTradeForm()
+    item_trade = TradeService.add_trade(item_id=item_id,
+                                   user_id=current_user.id,
+                                   reasion=form.reasion.data,
+                                   contact=form.contact.data)
+    if item_trade:
+        flash("申请交易成功,请耐心等待物品主人主动联系您~~")
+    else:
+        flash("额~~失败了,请稍后再试")
+
+    return redirect(url_for('item.show_item', item_id=item_id))

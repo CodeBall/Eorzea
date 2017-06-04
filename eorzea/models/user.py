@@ -1,6 +1,7 @@
 from flask_login import UserMixin
 
 from eorzea.const import SexMapping
+from eorzea.const import get_sex
 from eorzea.extensions import db
 from eorzea.extensions import qiniu
 
@@ -21,15 +22,14 @@ class UserModel(db.Model, UserMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, server_default=db.func.current_timestamp())
 
-    def to_dict(self):
-        return dict(
-            id=self.id,
-            username=self.username,
-            email=self.email,
-            address=self.address,
-            avatar_url=qiniu.public_url(self.avatar_url) or '',
-        )
-
     @property
     def is_active(self):
         return self.active
+
+    @property
+    def user_sex(self):
+        return get_sex(self.sex)
+
+    @property
+    def user_avatar(self):
+        return qiniu.public_url(self.avatar_url) or ''

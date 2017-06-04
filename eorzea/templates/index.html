@@ -46,8 +46,7 @@
                             <li><i class="fa fa-comment"> 评论</i> <label>{{ item.comment_count }}</label></li>
                         </ul>
                         <div class="btn-group" role="group">
-                            <a class="btn btn-primary btn-xs">查看详情</a>
-                            <a class="btn btn-info btn-xs">收藏</a>
+                            <a href="{{ url_for('item.show_item', item_id=item.id) }}" class="btn btn-primary btn-xs">查看详情</a>
                         </div>
                     </div>
                 </div>
