@@ -39,3 +39,8 @@ class ItemForm(Form):
 
 class ItemCommentForm(Form):
     content = TextAreaField(validators=[DataRequired(), Length(max=512)])
+
+
+class ItemTradeForm(Form):
+    contact = StringField(validators=[DataRequired(), Length(min=11, max=11, message='请填写手机号码')])
+    reasion = StringField(validators=[DataRequired()])

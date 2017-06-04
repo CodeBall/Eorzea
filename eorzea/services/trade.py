@@ -36,3 +36,7 @@ class TradeService:
         trades = TradeModel.query.filter_by(user_id=user_id, is_closed=False)
 
         return trades
+
+    @staticmethod
+    def check(user_id, item_id):
+        return TradeModel.query.filter_by(user_id=user_id, item_id=item_id).first()
