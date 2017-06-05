@@ -18,7 +18,7 @@ class ItemService:
         if limit is not None:
             query = query.limit(limit)
 
-        return query
+        return query.all()
 
     @staticmethod
     def add_item(title, description, images, location, category_id, user_id):

@@ -27,13 +27,13 @@ class TradeService:
 
     @staticmethod
     def get_trades_by_item_id(item_id):
-        trades = TradeModel.query.filter_by(item_id=item_id, is_closed=False)
+        trades = TradeModel.query.filter_by(item_id=item_id, is_closed=False).all()
 
         return trades
 
     @staticmethod
     def get_trades_by_user_is(user_id):
-        trades = TradeModel.query.filter_by(user_id=user_id, is_closed=False)
+        trades = TradeModel.query.filter_by(user_id=user_id, is_closed=False).all()
 
         return trades
 

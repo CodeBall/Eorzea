@@ -13,11 +13,11 @@ class CollectionService:
 
     @staticmethod
     def get_item_list_by_user_id(user_id):
-        return CollectionModel.query.filter_by(user_id=user_id)
+        return CollectionModel.query.filter_by(user_id=user_id).all()
 
     @staticmethod
     def get_user_list_by_item_id(item_id):
-        return CollectionModel.query.filter_by(item_id=item_id)
+        return CollectionModel.query.filter_by(item_id=item_id).all()
 
     @staticmethod
     def check_collection(user_id, item_id):

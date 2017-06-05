@@ -28,15 +28,12 @@ def index():
                 item.category_name = category.name
 
         trades = TradeService.get_trades_by_item_id(item.id)
-        if trades:
-            item.trade_count = trades.count()
+        item.trade_count = len(trades) if trades else 0
 
         collections = CollectionService.get_user_list_by_item_id(item.id)
-        if collections:
-            item.collection_count = collections.count()
+        item.collection_count = len(collections) if collections else 0
 
         comments = ItemCommentService.get_comments_by_item_id(item.id)
-        if comments:
-            item.comment_count = comments.count()
+        item.comment_count = len(comments) if comments else 0
 
     return render_template('index.html', categories=categories, items=items)
