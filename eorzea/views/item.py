@@ -1,5 +1,3 @@
-import uuid
-
 from flask import abort
 from flask import Blueprint
 from flask import redirect
@@ -19,9 +17,6 @@ from eorzea.services import TradeService
 from eorzea.services import UserService
 from eorzea.services import ItemCommentService
 from eorzea.extensions import qiniu
-from eorzea.utils.api import APIStatus
-from eorzea.utils.api import jsonify_with_error
-from eorzea.utils.api import jsonify_with_data
 
 
 bp = Blueprint('item', __name__)
@@ -100,6 +95,11 @@ def trade(item_id):
     item = ItemService.get_item_by_id(item_id)
     if not item:
         abort(404)
+
+    if item.user_id == current_user.id:
+        flash("不能够申请自己的物品哦~~")
+        return redirect(request.referrer)
+
     item_trade = TradeService.check(current_user.id, item_id)
     if item_trade:
         flash("您已经提交了该物品的交易申请了哦~~")
