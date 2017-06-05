@@ -82,13 +82,16 @@ def add_item_comment(item_id):
     if not item:
         abort(404)
     form = ItemCommentForm()
-    if not form.validate_on_submit():
-        return jsonify_with_error(APIStatus.BAD_REQUEST,
-                                  errors=form.errors)
-    ItemCommentService.add_comment(content=form.content.data,
+
+    comment = ItemCommentService.add_comment(content=form.content.data,
                                    user_id=current_user.id,
                                    item_id=item_id)
-    return jsonify_with_data(APIStatus.OK)
+    if comment:
+        flash("评论添加成功!!", "success")
+    else:
+        flash("额~~发送失败了,请稍后再试~~")
+
+    return redirect(url_for('item.show_item', item_id=item_id))
 
 
 @bp.route('/<int:item_id>', methods=['POST'])
