@@ -14,6 +14,7 @@ from eorzea.forms import PasswordResetForm
 from eorzea.forms import RegisterForm
 from eorzea.utils.url import is_safe_url
 from eorzea.services import UserService
+from eorzea.services import CategoryService
 
 
 bp = Blueprint('auth', __name__)
@@ -21,6 +22,7 @@ bp = Blueprint('auth', __name__)
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
+    categories = CategoryService.get_categories()
     form = LoginForm()
     if form.validate_on_submit():
         login_user(form.user, form.remember_me.data)
@@ -29,7 +31,7 @@ def login():
             return abort(400)
 
         return redirect(_next or url_for('index.index'))
-    return render_template('auth/login.html', form=form)
+    return render_template('auth/login.html', form=form, categories=categories)
 
 
 @bp.route('/password/reset', methods=['GET', 'POST'])
@@ -63,4 +65,4 @@ def register():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('index.index'))
+    return redirect(url_for('auth.login'))

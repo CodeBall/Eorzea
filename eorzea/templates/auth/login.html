@@ -1,46 +1,44 @@
 {% extends "base.html" %}
 {% from "_macro/_formhelpers.html" import field_error %}
 
+{% block link %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+{% endblock %}
+
 {% block content %}
-<div class="col-md-12" style="padding-top:150px">
-  <form method=post class="form-horizontal">
-  {{ form.csrf_token }}
-  {% if form.csrf_token.errors %}
-    <div class="warning">You have submitted an invalid CSRF token</div>
-  {% endif %}
-    <div class="form-group">
-      {{ form.username.label(class="col-sm-4 control-label") }}
-      <div class="col-sm-4">
-        {{ form.username(class="form-control") }}
-      </div>
-      {{ field_error(form.username) }}
-    </div>
-    <div class="form-group">
-      {{ form.password.label(class="col-sm-4 control-label") }}
-      <div class="col-sm-4">
-        {{ form.password(class="form-control") }}
-      </div>
-      {{ field_error(form.password) }}
-    </div>
-    <div class="form-group">
-      <div class="col-sm-offset-4 col-sm-4">
-        <div class="checkbox">
-          <label>
-            {{ form.remember_me }} Remember me?
-          </label>
+<div class="container">
+    <div class="login">
+        <div class="row title">
+            <h3>用户登录</h3>
         </div>
-      </div>
+        <div class="row form">
+            <div class="col-md-4 col-md-offset-4">
+                <form method="post" class="form-horizontal">
+                    {{ form.csrf_token }}
+                    {% if form.csrf_token.errors %}
+                    <div class="warning">You have submitted an invalid CSRF token</div>
+                    {% endif %}
+                    <div class="form-group">
+                        <label for="inputEmail1">账号</label>
+                        <input name="username" class="form-control" id="inputEmail1" placeholder="Username or Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword1">密码</label>
+                        <input name="password" type="password" class="form-control" id="inputPassword1"
+                               placeholder="Password">
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input name="remember_me" type="checkbox"> 记住我
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-default">登录</button>
+                </form>
+                <div class="col-sm-offset-8 col-sm-8">
+                    <a href="{{ url_for('auth.password_reset') }}"> Forget the password ?</a>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-      <div class="col-sm-offset-4 col-sm-4">
-        <button type="submit" class="btn btn-default">Sign in</button>
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="col-sm-offset-4 col-sm-4">
-        <a href="{{ url_for('auth.password_reset') }}"> Forget the password ?</a>
-      </div>
-    </div>
-  </form>
 </div>
 {% endblock %}
