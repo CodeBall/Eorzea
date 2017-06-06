@@ -50,8 +50,9 @@ class UserService:
         return user
 
     @classmethod
-    def create_user(cls, username, email, password, telephone, sex, real_name=None):
-        user = UserModel(username=username, email=email, telephone=telephone, sex=sex, real_name=real_name)
+    def create_user(cls, username, email, password, telephone, sex, avatar_url=None, real_name=None):
+        user = UserModel(username=username, email=email, telephone=telephone, sex=sex, avatar_url=avatar_url,
+                         real_name=real_name)
         db.session.add(user)
         db.session.commit()
         cls.set_password(user.id, password)

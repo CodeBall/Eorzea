@@ -1,0 +1,12 @@
+.register {
+    margin: 50px 0;
+}
+
+.register .title{
+    text-align: center;
+    padding-bottom: 10px;
+}
+#inputSex label{
+    margin-left: 3px;
+    margin-right: 20px;
+}

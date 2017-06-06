@@ -1,67 +1,79 @@
 {% extends "base.html" %}
 {% from "_macro/_formhelpers.html" import field_error %}
 
+{% block link %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+{% endblock %}
+
 {% block content %}
-<div class="col-md-12" style="padding-top:150px">
-  <form method=post class="form-horizontal">
-  {{ form.csrf_token }}
-  {% if form.csrf_token.errors %}
-    <div class="warning">You have submitted an invalid CSRF token</div>
-  {% endif %}
-    <div class="form-group">
-      {{ form.email.label(class="col-sm-4 control-label") }}
-      <div class="col-sm-4">
-        {{ form.email(class="form-control") }}
-      </div>
-      {{ field_error(form.email) }}
+<div class="container">
+    <div class="register">
+        <div class="row title">
+            <h3>注册新用户</h3>
+        </div>
+        <div class="row form">
+            <div class="col-md-4 col-md-offset-4">
+                <form method=post class="form-horizontal" enctype="multipart/form-data">
+                    {{ form.csrf_token }}
+                    {% if form.csrf_token.errors %}
+                    <div class="warning">You have submitted an invalid CSRF token</div>
+                    {% endif %}
+                    <div class="form-group">
+                        <label for="inputEmail1">邮箱</label>
+                        <input name="email" type="email" class="form-control" id="inputEmail1" placeholder="邮箱">
+                        {{ field_error(form.email) }}
+                    </div>
+                    <div class="form-group">
+                        <label for="inputNicename">用户名</label>
+                        <input name="username" type="text" class="form-control" id="inputNicename" placeholder="用户名">
+                        {{ field_error(form.username) }}
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword1">密码</label>
+                        <input name="password" type="password" class="form-control" id="inputPassword1"
+                               placeholder="密码">
+                        {{ field_error(form.password) }}
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword2">再次输入密码</label>
+                        <input name="confirm_password" type="password" class="form-control" id="inputPassword2"
+                               placeholder="再次输入密码">
+                        {{ field_error(form.confirm_password) }}
+                    </div>
+                    <div class="form-group">
+                        <label for="inputName">真实姓名</label>
+                        <input name="real_name" type="text" class="form-control" id="inputName" placeholder="昵称">
+                        {{ field_error(form.real_name) }}
+                    </div>
+                    <div class="form-group">
+                        <label for="inputMobile">手机号</label>
+                        <input name="telephone" type="text" class="form-control" id="inputMobile" placeholder="手机号">
+                        {{ field_error(form.telephone) }}
+                    </div>
+                    <div class="form-group">
+                        <label for="inputSex">性别</label>
+                        <div id="inputSex">
+                            <input type="radio" name="sex" value="1">
+                            <label>未知</label>
+                            <input type="radio" name="sex" value="2">
+                            <label>男</label>
+                            <input type="radio" name="sex" value="3">
+                            <label>女</label>
+                            {{ field_error(form.sex) }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputFile">头像</label>
+                        {{ form.avatar(id="inputFile") }}
+                        {{ field_error(form.avatar) }}
+                        <p class="help-block">请上传自定义头像。</p>
+                    </div>
+                    <hr/>
+                    <button type="submit" class="btn btn-primary">注册</button>
+                    <button type="reset" class="btn btn-default">取消</button>
+                </form>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-      {{ form.username.label(class="col-sm-4 control-label") }}
-      <div class="col-sm-4">
-        {{ form.username(class="form-control") }}
-      </div>
-      {{ field_error(form.username) }}
-    </div>
-    <div class="form-group">
-      {{ form.password.label(class="col-sm-4 control-label") }}
-      <div class="col-sm-4">
-        {{ form.password(class="form-control") }}
-      </div>
-      {{ field_error(form.password) }}
-    </div>
-    <div class="form-group">
-      {{ form.confirm_password.label(class="col-sm-4 control-label") }}
-      <div class="col-sm-4">
-        {{ form.confirm_password(class="form-control") }}
-      </div>
-      {{ field_error(form.confirm_password) }}
-    </div>
-    <div class="form-group">
-      {{ form.real_name.label(class="col-sm-4 control-label") }}
-      <div class="col-sm-4">
-        {{ form.real_name(class="form-control") }}
-      </div>
-      {{ field_error(form.real_name) }}
-    </div>
-    <div class="form-group">
-      {{ form.telephone.label(class="col-sm-4 control-label") }}
-      <div class="col-sm-4">
-        {{ form.telephone(class="form-control") }}
-      </div>
-      {{ field_error(form.telephone) }}
-    </div>
-    <div class="form-group">
-      {{ form.sex.label(class="col-sm-4 control-label") }}
-      <div class="col-sm-4">
-        {{ form.sex(class="form-control") }}
-      </div>
-      {{ field_error(form.sex) }}
-    </div>
-    <div class="form-group">
-      <div class="col-sm-offset-4 col-sm-4">
-        <button type="submit" class="btn btn-default">Sign up</button>
-      </div>
-    </div>
-  </form>
 </div>
 {% endblock %}

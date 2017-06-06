@@ -1,3 +1,5 @@
+import uuid
+
 from flask import g
 from flask import request
 from flask import abort
@@ -15,6 +17,7 @@ from eorzea.forms import RegisterForm
 from eorzea.utils.url import is_safe_url
 from eorzea.services import UserService
 from eorzea.services import CategoryService
+from eorzea.extensions import qiniu
 
 
 bp = Blueprint('auth', __name__)
@@ -46,19 +49,23 @@ def password_reset():
 
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
+    categories = CategoryService.get_categories()
     form = RegisterForm()
     if form.validate_on_submit():
+        filename = f"images/{uuid.uuid4()}.{form.avatar.data.filename.split('.')[-1]}"
+        qiniu.upload_stream(form.avatar.data, filename)
         user = UserService.create_user(
             form.username.data,
             form.email.data,
             form.password.data,
             form.telephone.data,
             form.sex.data,
+            filename,
             form.real_name.data
         )
         login_user(user)
         return redirect(url_for('index.index'))
-    return render_template('auth/register.html', form=form)
+    return render_template('auth/register.html', form=form, categories=categories)
 
 
 @bp.route('/logout', methods=['GET'])

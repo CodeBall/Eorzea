@@ -1,4 +1,7 @@
 from flask_wtf import Form
+from flask_wtf.file import FileField
+from flask_wtf.file import FileRequired
+from flask_wtf.file import FileAllowed
 from wtforms.fields import StringField
 from wtforms.fields import PasswordField
 from wtforms.fields import BooleanField
@@ -72,6 +75,8 @@ class RegisterForm(Form):
         default="unknow",
         coerce=int
     )
+    avatar = FileField("avatar", validators=[FileRequired(),
+                                       FileAllowed(['jpg', 'png'], 'Image only!')])
 
     def validate_email(self, field):
         user = UserService.get_user_by_email(field.data)
