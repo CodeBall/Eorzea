@@ -21,6 +21,14 @@ class ItemService:
         return query.all()
 
     @staticmethod
+    def get_active_items(user_id):
+        return ItemModel.query.filter_by(user_id=user_id, is_trade=False).order_by(desc(ItemModel.created_at)).all()
+
+    @staticmethod
+    def get_access_trade_items(user_id):
+        return ItemModel.query.filter_by(user_id=user_id, is_trade=True).order_by(desc(ItemModel.created_at)).all()
+
+    @staticmethod
     def add_item(title, description, images, location, category_id, user_id):
         item = ItemModel(title=title, description=description, images=images, category_id=category_id, user_id=user_id)
         db.session.add(item)

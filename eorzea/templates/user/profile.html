@@ -1,1 +1,103 @@
 {% extends "base.html" %}
+
+{% block link %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>用户信息</h3>
+            <div class="profile">
+                <div class="row">
+                    <div class="col-md-3">
+                        <img src="{{ user.user_avatar}}" width="100%"
+                             class="img-thumbnail">
+                        <div class="report">
+                            <button type="button" class="btn btn-danger btn-xs" data-toggle="modal"
+                                    data-target="#reportModal">举报
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row user-info">
+                            <div class="col-md-6">
+                                <ul class="list-unstyled">
+                                    <li><label>用户名:</label> {{ user.username}}</li>
+                                    <li><label>手机:</label> {{ user.telephone }} </li>
+                                    <li><label>联系地址:</label> {{ user.address }}</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="list-unstyled">
+                                    <li><label>邮箱:</label> {{ user.email }} </li>
+                                    <li><label>性别:</label> {{ user.user_sex }} </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="row user-record">
+                            <div class="col-md-3">
+                                <a href="{{ url_for('item_filter.item_filter_by_active', active=1, user_id=user.id) }}">
+                                    <p class="text-center"><i class="fa fa-gift fa-5x"></i></p>
+                                </a>
+                                <p class="text-center">活跃帖子数 {{active_item_count}}</p>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="{{ url_for('item_filter.item_filter_by_active', active=0, user_id=user.id) }}">
+                                    <p class="text-center"><i class="fa fa-money fa-5x"></i></p>
+                                </a>
+                                <p class="text-center">成功交易数 {{access_trade_count}}</p>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="{{ url_for('item_filter.item_filter_by_trade', user_id=user.id) }}">
+                                    <p class="text-center"><i class="fa fa-pied-piper-alt fa-5x"></i></p>
+                                </a>
+                                <p class="text-center">申请交易数 {{trade_item_count}}</p>
+                            </div>
+                            {% if current_user.id == user.id %}
+                            <div class="col-md-3">
+                                <a href="{{ url_for('item_filter.item_filter_by_collection') }}">
+                                    <p class="text-center"><i class="fa fa-star fa-5x"></i></p>
+                                </a>
+                                <p class="text-center">收藏帖子数 {{collect_item_count}}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="reportModalLabel">举报用户</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">举报原因</label>
+                        <input type="text" class="form-control" id="recipient-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="control-label">描述</label>
+                        <textarea class="form-control" id="message-text"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-danger">举报</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
