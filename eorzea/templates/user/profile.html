@@ -43,13 +43,13 @@
                                 <a href="{{ url_for('item_filter.item_filter_by_active', active=1, user_id=user.id) }}">
                                     <p class="text-center"><i class="fa fa-gift fa-5x"></i></p>
                                 </a>
-                                <p class="text-center">活跃帖子数 {{active_item_count}}</p>
+                                <p class="text-center">活跃物品数 {{active_item_count}}</p>
                             </div>
                             <div class="col-md-3">
                                 <a href="{{ url_for('item_filter.item_filter_by_active', active=0, user_id=user.id) }}">
                                     <p class="text-center"><i class="fa fa-money fa-5x"></i></p>
                                 </a>
-                                <p class="text-center">成功交易数 {{access_trade_count}}</p>
+                                <p class="text-center">成功交易数 {{success_trade_count}}</p>
                             </div>
                             <div class="col-md-3">
                                 <a href="{{ url_for('item_filter.item_filter_by_trade', user_id=user.id) }}">
@@ -62,7 +62,7 @@
                                 <a href="{{ url_for('item_filter.item_filter_by_collection') }}">
                                     <p class="text-center"><i class="fa fa-star fa-5x"></i></p>
                                 </a>
-                                <p class="text-center">收藏帖子数 {{collect_item_count}}</p>
+                                <p class="text-center">收藏物品数 {{collect_item_count}}</p>
                             </div>
                             {% endif %}
                         </div>

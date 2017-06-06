@@ -24,8 +24,8 @@ def profile(username):
     active_items = ItemService.get_active_items(user.id)
     active_item_count = len(active_items) if active_items else 0
 
-    access_trade_items = ItemService.get_access_trade_items(user.id)
-    access_trade_count = len(access_trade_items) if access_trade_items else 0
+    success_trade_items = ItemService.get_success_trade_items(user.id)
+    success_trade_count = len(success_trade_items) if success_trade_items else 0
 
     trade_item_list = TradeService.get_trades_by_user_is(user.id)
     trade_item_count = len(trade_item_list) if trade_item_list else 0
@@ -37,5 +37,5 @@ def profile(username):
         collect_item_count = 0
 
     return render_template('user/profile.html', user=user, categories=categories, active_item_count=active_item_count,
-                           access_trade_count=access_trade_count, trade_item_count=trade_item_count,
+                           success_trade_count=success_trade_count, trade_item_count=trade_item_count,
                            collect_item_count=collect_item_count)

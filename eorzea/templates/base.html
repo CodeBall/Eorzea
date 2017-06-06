@@ -50,7 +50,8 @@
                 <ul class="list-inline">
                     <li><a href="{{ url_for('index.index') }}" class="btn btn-link" type="button">首页</a></li>
                     {% for category in categories %}
-                        <li><a class="btn btn-link" type="button">{{category.name}}</a></li>
+                    <li><a href="{{ url_for('item_filter.item_filter_by_category', category_id=category.id) }}"
+                           class="btn btn-link" type="button">{{category.name}}</a></li>
                     {% endfor %}
                 </ul>
             </div>

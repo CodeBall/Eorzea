@@ -21,11 +21,21 @@ class ItemService:
         return query.all()
 
     @staticmethod
+    def get_items_by_category(category_id):
+        return ItemModel.query.filter_by(category_id=category_id, is_trade=False).order_by(
+            desc(ItemModel.created_at)).all()
+
+    @staticmethod
+    def get_items_by_user_id_list(user_id_list):
+        return ItemModel.query.filter(ItemModel.id.in_(user_id_list), ItemModel.is_trade==False).order_by(
+            desc(ItemModel.created_at)).all()
+
+    @staticmethod
     def get_active_items(user_id):
         return ItemModel.query.filter_by(user_id=user_id, is_trade=False).order_by(desc(ItemModel.created_at)).all()
 
     @staticmethod
-    def get_access_trade_items(user_id):
+    def get_success_trade_items(user_id):
         return ItemModel.query.filter_by(user_id=user_id, is_trade=True).order_by(desc(ItemModel.created_at)).all()
 
     @staticmethod
