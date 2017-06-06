@@ -1,3 +1,5 @@
+import uuid
+
 from flask import abort
 from flask import Blueprint
 from flask import redirect
@@ -25,6 +27,7 @@ bp = Blueprint('item', __name__)
 @bp.route('/add', methods=['GET', 'POST'])
 @login_required
 def add_item():
+    categories = CategoryService.get_categories()
     form = ItemForm()
     if form.add_image.data:
         if len(form.images.entries) < form.images.max_entries:
@@ -43,7 +46,7 @@ def add_item():
                                     category_id=form.category_id,
                                     user_id=current_user.id)
         return redirect(url_for('item.show_item', item_id=item.id))
-    return render_template('add_item.html', form=form)
+    return render_template('add_item.html', form=form, categories=categories)
 
 
 @bp.route('/<int:item_id>', methods=['GET'])

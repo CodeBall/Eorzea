@@ -1,56 +1,75 @@
 {% extends "base.html" %}
 {% from "_macro/_formhelpers.html" import field_error %}
 
+{% block link %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/add-items.css') }}">
+{% endblock %}
+
 {% block content %}
-<div class="col-md-12" style="padding-top:150px">
-  <form method="POST" enctype="multipart/form-data" class="form-horizontal">
-  {{ form.csrf_token }}
-  {% if form.csrf_token.errors %}
-    <div class="warning">You have submitted an invalid CSRF token</div>
-  {% endif %}
-    <div class="form-group">
-      {{ form.title.label(class="col-sm-4 control-label") }}
-      <div class="col-sm-4">
-        {{ form.title(class="form-control") }}
-      </div>
-      {{ field_error(form.title) }}
+<div class="container">
+    <div class="row create">
+        <form method="POST" enctype="multipart/form-data" class="form-horizontal">
+            {{ form.csrf_token }}
+            {% if form.csrf_token.errors %}
+            <div class="warning">You have submitted an invalid CSRF token</div>
+            {% endif %}
+            <div class="col-md-6 col-md-offset-3 title">
+                <h3 align="center">添加新物品</h3>
+            </div>
+            <div class="col-md-6 col-md-offset-3 info">
+                <div class="form-group">
+                    <label for="inputName">标题</label>
+                    {% if form.title.data %}
+                    <input name="title" type="text" class="form-control" id="inputName" value="{{form.title.data}}">
+                    {% else %}
+                    <input name="title" type="text" class="form-control" id="inputName">
+                    {% endif  %}
+                    {{ field_error(form.title) }}
+                </div>
+                <div class="form-group">
+                    <label for="inputLocal">地点</label>
+                    {% if form.location.data %}
+                    <input name="location" type="text" class="form-control" id="inputLocal" value="{{form.location.data}}">
+                    {% else %}
+                    <input name="location" type="text" class="form-control" id="inputLocal">
+                    {% endif  %}
+                    {{ field_error(form.location) }}
+                </div>
+                <div class="form-group">
+                    <label for="inputChoose">分类</label>
+                    {% if form.category.data %}
+                    {{ form.category(class="form-control", id="inputChoose", default=form.category.data) }}
+                    {% else %}
+                    {{ form.category(class="form-control", id="inputChoose", default=form.category.data) }}
+                    {% endif %}
+                    {{ field_error(form.category) }}
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-3 desc">
+                <div class="form-group">
+                    <label>详细描述</label>
+                    {% if form.description.data%}
+                    <textarea name="description" class="form-control" rows="5">{{ form.description.data}}</textarea>
+                    {% else %}
+                    <textarea name="description" class="form-control" rows="5"></textarea>
+                    {% endif %}
+                    {{ field_error(form.description) }}
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-3 picture">
+                <div class="form-group">
+                    <label for="inputFile">添加图片</label>
+                    {% for image in form.images %}
+                    {{ image }}
+                    {{ field_error(image) }}
+                    {% endfor %}
+                    {{ form.add_image() }}
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-3">
+                <button type="submit" class="btn btn-primary">添加</button>
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-      {{ form.description.label(class="col-sm-4 control-label") }}
-      <div class="col-sm-4">
-        {{ form.description(class="form-control") }}
-      </div>
-      {{ field_error(form.description) }}
-    </div>
-    <div class="form-group">
-      {{ form.location.label(class="col-sm-4 control-label") }}
-      <div class="col-sm-4">
-        {{ form.location(class="form-control") }}
-      </div>
-      {{ field_error(form.location) }}
-    </div>
-    <div class="form-group">
-      {{ form.category.label(class="col-sm-4 control-label") }}
-      <div class="col-sm-4">
-        {{ form.category(class="form-control") }}
-      </div>
-      {{ field_error(form.category) }}
-    </div>
-    <div class="form-group">
-      {{ form.images.label(class="col-sm-4 control-label") }}
-      <div class="col-sm-4">
-        {% for image in form.images %}
-          {{ image }}
-          {{ field_error(image) }}
-        {% endfor %}
-        {{ form.add_image() }}
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="col-sm-offset-4 col-sm-4">
-        <button type="submit" class="btn btn-default">Submit</button>
-      </div>
-    </div>
-  </form>
 </div>
 {% endblock %}
