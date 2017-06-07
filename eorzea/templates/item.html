@@ -115,7 +115,9 @@
                     <div class="media-body">
                         <h4 class="media-heading">{{ trade.user.username }} &nbsp;/&nbsp; {{ trade.created_at
                             }} &nbsp;/&nbsp; {{ trade.contact}}</h4>
-                        <p>{{ trade.reasion }} &nbsp;&nbsp;&nbsp; <a class="btn btn-primary"> 与他交易 </a></p>
+                        <p>{{ trade.reasion }} &nbsp;&nbsp;&nbsp;
+                            <a class="btn btn-primary" href="{{ url_for('item.close', item_id=item.id, user_id=trade.user.id) }}"> 与他交易 </a>
+                        </p>
                     </div>
                 </li>
                 {% endif %}

@@ -129,3 +129,23 @@ def trade(item_id):
         flash("额~~失败了,请稍后再试")
 
     return redirect(url_for('item.show_item', item_id=item_id))
+
+
+@bp.route('/close/<int:item_id>/<int:user_id>')
+@login_required
+def close(item_id, user_id):
+    item = ItemService.get_item_by_id(item_id)
+    if not item:
+        abort(404)
+    trade_user = UserService.get_user_by_id(user_id)
+    if not trade_user:
+        abort(404)
+
+    item = ItemService.close_item(item_id, user_id)
+    if item:
+        TradeService.close_trade(item_id)
+        flash("结束交易成功")
+    else:
+        flash("结束交易失败, 请稍后再试")
+
+    return redirect(request.referrer)

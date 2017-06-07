@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy import desc
 
 from eorzea.models import ItemModel
@@ -40,10 +42,28 @@ class ItemService:
 
     @staticmethod
     def add_item(title, description, images, location, category_id, user_id):
-        item = ItemModel(title=title, description=description, images=images, category_id=category_id, user_id=user_id)
+        item = ItemModel(title=title, description=description, images=images, category_id=category_id, user_id=user_id,
+                         location=location)
         db.session.add(item)
         db.session.commit()
         return item
+
+    @staticmethod
+    def close_item(item_id, trade_user_id):
+        item = ItemModel.query.get(item_id)
+        if not item:
+            return None
+        item.is_trade = True
+        item.traded_at = datetime.now()
+        item.trade_user_id = trade_user_id
+
+        try:
+            db.session.add(item)
+            db.session.commit()
+            return item
+        except:
+            db.session.rollback()
+            return None
 
 
 class ItemCommentService:
