@@ -55,8 +55,8 @@ def show_item(item_id):
     item = ItemService.get_item_by_id(item_id)
     if item is None:
         abort(404)
-    user = UserService.get_user_by_id(item.user_id)
-    if user is None:
+    item_user = UserService.get_user_by_id(item.user_id)
+    if item_user is None:
         abort(404)
     if item.category_id:
         category = CategoryService.get_category_by_id(item.category_id)
@@ -70,7 +70,17 @@ def show_item(item_id):
             user = UserService.get_user_by_id(comment.user_id)
             if user:
                 comment.user = user
-    return render_template('item.html', item=item, categories=categories, user=user, category=category, comments=comments, comment_form=form)
+    if current_user.id == item.user_id:
+        trades = TradeService.get_trades_by_item_id(item_id)
+        if trades:
+            for tr in trades:
+                user = UserService.get_user_by_id(tr.user_id)
+                tr.user = user
+    else:
+        trades=None
+
+    return render_template('item.html', item=item, categories=categories, user=item_user, category=category,
+                           comments=comments, comment_form=form, trades=trades)
 
 
 @bp.route('/<int:item_id>/comment', methods=['POST'])

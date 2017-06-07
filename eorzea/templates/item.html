@@ -16,6 +16,13 @@
                         <li><label>类别</label> {{ category.name }} </li>
                         <li><label>发布时间</label> {{ item.created_at }} </li>
                         <li><label>地点</label> {{ item.location }}</li>
+                        <li><label>物品状态</label>
+                            {% if item.is_trade %}
+                             该物品在{{item.traded_at}}已经完成交易 <a href="{{ url_for('user.profile_id', user_id=item.trade_user_id) }}">交易用户</a>
+                            {% else %}
+                            正在交易中
+                            {% endif %}
+                        </li>
                     </ul>
                     <br/>
                     <div class="btn-group" role="group" aria-label="...">
@@ -90,6 +97,34 @@
             </form>
         </div>
     </div>
+{% if trades %}
+ <div class="row good-comment">
+        <div class="col-md-12">
+            <h3>申请记录</h3>
+            <ul class="media-list">
+                {% for trade in trades %}
+                {% if trade.user %}
+                <li class="media">
+                    <div class="media-left">
+                        <a href="{{ url_for('user.profile', username=trade.user.username) }}">
+                            <img class="media-object" data-src="holder.js/64x64" alt="64x64"
+                                 src="{{ trade.user.user_avatar}}"
+                                 data-holder-rendered="true" style="width: 64px; height: 64px;">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">{{ trade.user.username }} &nbsp;/&nbsp; {{ trade.created_at
+                            }} &nbsp;/&nbsp; {{ trade.contact}}</h4>
+                        <p>{{ trade.reasion }} &nbsp;&nbsp;&nbsp; <a class="btn btn-primary"> 与他交易 </a></p>
+                    </div>
+                </li>
+                {% endif %}
+                {% endfor%}
+            </ul>
+            <hr/>
+        </div>
+    </div>
+{% endif %}
 <div class="modal fade" id="trade" tabindex="1" role="dialog" aria-labelledby="reportModalLabel">
     <div class="modal-dialog" role="document">
         <form method="post" action="{{ url_for('item.trade', item_id=item.id) }}">
