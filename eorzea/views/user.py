@@ -1,5 +1,7 @@
 from flask import abort
 from flask import Blueprint
+from flask import redirect
+from flask import url_for
 from flask import render_template
 from flask_login import current_user
 
@@ -39,3 +41,11 @@ def profile(username):
     return render_template('user/profile.html', user=user, categories=categories, active_item_count=active_item_count,
                            success_trade_count=success_trade_count, trade_item_count=trade_item_count,
                            collect_item_count=collect_item_count)
+
+
+@bp.route('/<int:user_id>')
+def profile_id(user_id):
+    user = UserService.get_user_by_id(user_id)
+    if not user:
+        abort(404)
+    return redirect(url_for('user.profile', username=user.username))
