@@ -6,6 +6,7 @@ from wtforms.fields import StringField
 from wtforms.fields import PasswordField
 from wtforms.fields import BooleanField
 from wtforms.fields import SelectField
+from wtforms.fields import TextAreaField
 from wtforms.validators import DataRequired
 from wtforms.validators import ValidationError
 from wtforms.validators import Email
@@ -87,3 +88,8 @@ class RegisterForm(Form):
         user = UserService.get_user_by_username(field.data)
         if user:
             raise ValidationError("Username has been used")
+
+
+class ReportForm(Form):
+    reasion = StringField(validators=[DataRequired()])
+    description = TextAreaField(validators=[DataRequired(), Length(max=1024)])

@@ -1,15 +1,19 @@
 from flask import abort
+from flask import request
 from flask import Blueprint
 from flask import redirect
 from flask import url_for
 from flask import render_template
 from flask_login import current_user
+from flask_login import login_required
 
 from eorzea.services import UserService
 from eorzea.services import CategoryService
 from eorzea.services import ItemService
 from eorzea.services import TradeService
+from eorzea.services import ReportService
 from eorzea.services import CollectionService
+from eorzea.forms import ReportForm
 
 
 bp = Blueprint('user', __name__)
@@ -49,3 +53,20 @@ def profile_id(user_id):
     if not user:
         abort(404)
     return redirect(url_for('user.profile', username=user.username))
+
+
+@bp.route('/report/<int:plaintiff_id>/<int:accused_id>', methods=['POST'])
+@login_required
+def report(plaintiff_id, accused_id):
+    plaintiff = UserService.get_user_by_id(plaintiff_id)
+    if not plaintiff:
+        abort(404)
+    accused = UserService.get_user_by_id(accused_id)
+    if not accused:
+        abort(404)
+
+    form = ReportForm()
+
+    report = ReportService.add(plaintiff_id, accused_id, form.reasion.data, form.description.data)
+
+    return redirect(request.referrer)
