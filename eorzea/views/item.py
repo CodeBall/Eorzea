@@ -32,7 +32,7 @@ def add_item():
     if form.add_image.data:
         if len(form.images.entries) < form.images.max_entries:
             form.images.append_entry()
-        return render_template('add_item.html', form=form)
+        return render_template('add_item.html', form=form, categories=categories)
     if form.validate_on_submit():
         images = []
         for image in form.images.data:
